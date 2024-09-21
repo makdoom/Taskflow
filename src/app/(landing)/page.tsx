@@ -29,7 +29,7 @@ const LandingPage = () => {
 
         <div className="space-x-4">
           <Button size="lg" className="mt-16 py-6">
-            Get Started
+            <Link href="/auth/login">Get Started</Link>
           </Button>
 
           <Button variant="outline" size="lg" className="mt-16 py-6">

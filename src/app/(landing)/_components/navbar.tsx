@@ -6,6 +6,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import Link from "next/link";
 import { RiMenu5Line } from "react-icons/ri";
 
 const Navbar = () => {
@@ -14,8 +15,12 @@ const Navbar = () => {
       <div className="md:max-w-screen-2xl mx-auto flex items-center justify-between ">
         <h1 className="text-xl font-bold tracking-wide">Taskflow</h1>
         <div className="hidden space-x-4 w-full md:block md:w-auto">
-          <Button variant="secondary">Signup</Button>
-          <Button>Login</Button>
+          <Button variant="secondary">
+            <Link href="/auth/register">Signup</Link>
+          </Button>
+          <Button>
+            <Link href="/auth/login">Login</Link>
+          </Button>
         </div>
         <Drawer>
           <DrawerTrigger className="md:hidden">
