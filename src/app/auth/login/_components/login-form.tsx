@@ -22,16 +22,20 @@ const LoginForm = () => {
     },
   });
 
+  const submitHandler = (data: LoginSchemaType) => {
+    console.log(data);
+  };
+
   return (
     <CardWrapper
       heading="Login Now"
       subHeading="Your tasks, your flow, one login away"
       backButtonLabel="Don't have an account ?"
-      backButtonHref="/register"
+      backButtonHref="/auth/register"
       showSocial
     >
       <Form {...form}>
-        <form>
+        <form onSubmit={form.handleSubmit(submitHandler)}>
           <div className="space-y-4">
             <FormField
               control={form.control}
@@ -74,7 +78,7 @@ const LoginForm = () => {
           </div>
 
           <Button className="w-full !mt-8" size="lg" type="submit">
-            Login to continue
+            Login
           </Button>
         </form>
       </Form>
