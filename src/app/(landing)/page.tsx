@@ -35,7 +35,7 @@ const LandingPage = () => {
           <Button variant="outline" size="lg" className="mt-16 py-6">
             <Link
               className="flex items-center gap-2"
-              href="https://www.github.com/makdoom/Taskflow"
+              href="https://www.github.com/makdoom/taskflow"
               target="_blank"
             >
               Github
