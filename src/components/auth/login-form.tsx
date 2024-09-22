@@ -29,6 +29,7 @@ const LoginForm = () => {
   const submitHandler = async (data: LoginSchemaType) => {
     try {
       const result = await handleCredentialLogin(data);
+      if (!result) return;
       const { success, message } = result;
       if (!success) return toast.error(message);
     } catch (error) {

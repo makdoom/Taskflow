@@ -6,6 +6,7 @@ import { LoginSchema, LoginSchemaType } from "@/schema";
 import { AuthError } from "next-auth";
 import bcrypt from "bcryptjs";
 import { signIn } from "@/auth";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 export const handleCredentialLogin = async (data: LoginSchemaType) => {
   try {
@@ -41,7 +42,7 @@ export const handleCredentialLogin = async (data: LoginSchemaType) => {
     await signIn("credentials", {
       email,
       password,
-      redirectTo: "/",
+      redirectTo: DEFAULT_LOGIN_REDIRECT,
     });
     return ActionResponse(1, "Logged in successfully", null, "login");
   } catch (error) {
