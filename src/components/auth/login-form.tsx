@@ -16,8 +16,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { handleCredentialLogin } from "@/actions/authActions/login";
 import { toast } from "sonner";
+import { useSearchParams } from "next/navigation";
+import ErrorCard from "../ErrorCard";
+import { useEffect, useState } from "react";
 
 const LoginForm = () => {
+  const searchParams = useSearchParams();
+  const [globalError, setGlobalError] = useState("");
+
   const form = useForm<LoginSchemaType>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -31,12 +37,21 @@ const LoginForm = () => {
       const result = await handleCredentialLogin(data);
       if (!result) return;
       const { success, message } = result;
-      if (!success) return toast.error(message);
+      if (!success) {
+        setGlobalError("");
+        return toast.error(message);
+      }
     } catch (error) {
       console.log("An unexpected error occured", error);
       toast.error("An unexpected error occured while login, please try again");
     }
   };
+
+  useEffect(() => {
+    if (searchParams.get("error") === "OAuthAccountNotLinked") {
+      setGlobalError("Email address already in use with different provider.");
+    }
+  }, [searchParams]);
 
   return (
     <CardWrapper
@@ -46,6 +61,7 @@ const LoginForm = () => {
       backButtonHref="/auth/register"
       showSocial
     >
+      {globalError && <ErrorCard message={globalError} />}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(submitHandler)}>
           <div className="space-y-4">
