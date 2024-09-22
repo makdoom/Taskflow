@@ -1,3 +1,4 @@
+import { handleRegister } from "@/actions/authActions/register";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -12,6 +13,8 @@ import CardWrapper from "@/components/wrapper/card-wrapper";
 import { RegisterSchema, RegisterSchemaType } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { FiLoader } from "react-icons/fi";
 
 const RegisterForm = () => {
   const form = useForm<RegisterSchemaType>({
@@ -23,9 +26,22 @@ const RegisterForm = () => {
       confirmPassword: "",
     },
   });
-
-  const submitHandler = (data: RegisterSchemaType) => {
-    console.log(data);
+  const { isSubmitting } = form.formState;
+  const submitHandler = async (data: RegisterSchemaType) => {
+    try {
+      const response = await handleRegister(data);
+      const { success, message } = response;
+      if (success) {
+        toast.success(message);
+      } else {
+        toast.error(message);
+      }
+    } catch (error) {
+      console.log("An unexpected error occured, please try again", error);
+      toast.error(
+        "Unexpected error occured while creating user, Please try again"
+      );
+    }
   };
 
   return (
@@ -51,7 +67,7 @@ const RegisterForm = () => {
                       placeholder="John Doe"
                       type="text"
                       autoFocus
-                      //   disabled={isLoading}
+                      disabled={isSubmitting}
                     />
                   </FormControl>
                   <FormMessage />
@@ -69,7 +85,7 @@ const RegisterForm = () => {
                       {...field}
                       placeholder="john.doe@gmail.com"
                       type="email"
-                      //   disabled={isLoading}
+                      disabled={isSubmitting}
                     />
                   </FormControl>
                   <FormMessage />
@@ -87,7 +103,7 @@ const RegisterForm = () => {
                       {...field}
                       placeholder="********"
                       type="password"
-                      //   disabled={isLoading}
+                      disabled={isSubmitting}
                     />
                   </FormControl>
                   <FormMessage />
@@ -105,7 +121,7 @@ const RegisterForm = () => {
                       {...field}
                       placeholder="********"
                       type="password"
-                      //   disabled={isLoading}
+                      disabled={isSubmitting}
                     />
                   </FormControl>
                   <FormMessage />
@@ -115,6 +131,7 @@ const RegisterForm = () => {
           </div>
 
           <Button className="w-full !mt-6" size="lg">
+            {isSubmitting && <FiLoader className="animate-spin size-5 mr-2" />}
             Create Account
           </Button>
         </form>
