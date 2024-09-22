@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { handleCredentialLogin } from "@/actions/authActions/login";
+import { toast } from "sonner";
 
 const LoginForm = () => {
   const form = useForm<LoginSchemaType>({
@@ -27,10 +28,12 @@ const LoginForm = () => {
 
   const submitHandler = async (data: LoginSchemaType) => {
     try {
-      console.log("🚀 ~ submitHandler ~ data:", data);
-      await handleCredentialLogin(data);
+      const result = await handleCredentialLogin(data);
+      const { success, message } = result;
+      if (!success) return toast.error(message);
     } catch (error) {
       console.log("An unexpected error occured", error);
+      toast.error("An unexpected error occured while login, please try again");
     }
   };
 
