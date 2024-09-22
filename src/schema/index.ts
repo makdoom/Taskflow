@@ -2,24 +2,26 @@ import { z } from "zod";
 
 export const LoginSchema = z.object({
   email: z
-    .string()
-    .min(1, { message: "Email address is required" })
+    .string({ required_error: "Email is required" })
     .email({ message: "Enter a valid email id" }),
   password: z
-    .string()
+    .string({ required_error: "Password is required" })
     .min(6, { message: "Password must be atleast 6 characters" }),
 });
 export type LoginSchemaType = z.infer<typeof LoginSchema>;
 
 export const RegisterSchema = z
   .object({
-    name: z.string().min(1, { message: "Name is required" }),
-    email: z.string().email({ message: "Enter a valid email id" }),
+    name: z.string({ required_error: "Name is required" }),
+    email: z
+      .string({ required_error: "Email is required" })
+      .email({ message: "Enter a valid email id" }),
     password: z
-      .string()
-      .min(6, { message: "Password must be atleast 6 characters" }),
+      .string({ required_error: "Password is required" })
+      .min(6, { message: "Password must be atleast 6 characters" })
+      .max(32, { message: "Password must be less than 32 characters" }),
     confirmPassword: z
-      .string()
+      .string({ required_error: "Confirm password is required" })
       .min(6, "Confirm Password must be at least 6 characters"),
   })
   .refine((data) => data.password === data.confirmPassword, {

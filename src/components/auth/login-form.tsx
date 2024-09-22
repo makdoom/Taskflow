@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Form,
   FormControl,
@@ -12,6 +14,7 @@ import { LoginSchema, LoginSchemaType } from "@/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
+import { handleCredentialLogin } from "@/actions/authActions/login";
 
 const LoginForm = () => {
   const form = useForm<LoginSchemaType>({
@@ -22,8 +25,13 @@ const LoginForm = () => {
     },
   });
 
-  const submitHandler = (data: LoginSchemaType) => {
-    console.log(data);
+  const submitHandler = async (data: LoginSchemaType) => {
+    try {
+      console.log("🚀 ~ submitHandler ~ data:", data);
+      await handleCredentialLogin(data);
+    } catch (error) {
+      console.log("An unexpected error occured", error);
+    }
   };
 
   return (
