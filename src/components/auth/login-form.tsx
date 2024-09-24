@@ -19,6 +19,7 @@ import { toast } from "sonner";
 import { useSearchParams } from "next/navigation";
 import ErrorCard from "../ErrorCard";
 import { useEffect, useState } from "react";
+import { FiLoader } from "react-icons/fi";
 
 const LoginForm = () => {
   const searchParams = useSearchParams();
@@ -31,12 +32,15 @@ const LoginForm = () => {
       password: "",
     },
   });
+  const { isSubmitting } = form.formState;
 
   const submitHandler = async (data: LoginSchemaType) => {
     try {
       const result = await handleCredentialLogin(data);
       if (!result) return;
-      const { success, message } = result;
+      const { success, message, type } = result;
+      if (success && type === "email-verification") return toast.info(message);
+
       if (!success) {
         setGlobalError("");
         return toast.error(message);
@@ -76,7 +80,7 @@ const LoginForm = () => {
                       {...field}
                       placeholder="john.doe@gmail.com"
                       type="email"
-                      // disabled={isPending}
+                      disabled={isSubmitting}
                       autoFocus
                     />
                   </FormControl>
@@ -96,7 +100,7 @@ const LoginForm = () => {
                       {...field}
                       placeholder="*******"
                       type="password"
-                      // disabled={isPending}
+                      disabled={isSubmitting}
                     />
                   </FormControl>
                   <FormMessage />
@@ -106,6 +110,7 @@ const LoginForm = () => {
           </div>
 
           <Button className="w-full !mt-8" size="lg" type="submit">
+            {isSubmitting && <FiLoader className="animate-spin size-5 mr-2" />}
             Login
           </Button>
         </form>

@@ -7,6 +7,7 @@ import { AuthError } from "next-auth";
 import bcrypt from "bcryptjs";
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { generateVerificationToken } from "@/lib/token";
 
 export const handleCredentialLogin = async (data: LoginSchemaType) => {
   try {
@@ -37,6 +38,16 @@ export const handleCredentialLogin = async (data: LoginSchemaType) => {
           null,
           "login"
         );
+    }
+
+    if (!existingUser.emailVerified) {
+      await generateVerificationToken(email);
+      return ActionResponse(
+        1,
+        `We have sent an confirmation email to ${email}`,
+        null,
+        "email-verification"
+      );
     }
 
     await signIn("credentials", {
