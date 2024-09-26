@@ -15,8 +15,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { FiLoader } from "react-icons/fi";
+import { useRouter } from "next/navigation";
 
 const RegisterForm = () => {
+  const router = useRouter();
+
   const form = useForm<RegisterSchemaType>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -30,9 +33,15 @@ const RegisterForm = () => {
   const submitHandler = async (data: RegisterSchemaType) => {
     try {
       const response = await handleRegister(data);
-      const { success, message } = response;
+      const { success, message, type } = response;
+
       if (success) {
-        toast.success(message);
+        if (type == "email-verification") {
+          toast.info(message);
+          router.push("/auth/email-verification");
+        } else {
+          toast.success(message);
+        }
       } else {
         toast.error(message);
       }

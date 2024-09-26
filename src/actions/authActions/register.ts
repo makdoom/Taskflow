@@ -1,6 +1,8 @@
 "use server";
 
 import { ActionResponse } from "@/lib/response";
+import { sendVerificationMail } from "@/lib/mail";
+import { generateVerificationToken } from "@/lib/token";
 import { createNewUser, getUserByEmail } from "@/lib/user";
 import { RegisterSchema, RegisterSchemaType } from "@/schema";
 import bcrypt from "bcryptjs";
@@ -26,8 +28,15 @@ export const handleRegister = async (data: RegisterSchemaType) => {
     const newUser = await createNewUser(name, email, hashedPassword);
 
     // TODO: Send verification token to users
+    const verificationToken = await generateVerificationToken(email);
+    await sendVerificationMail(name, email, verificationToken.token);
 
-    return ActionResponse(1, "User created successfully", newUser, "register");
+    return ActionResponse(
+      1,
+      `Email verification link sent to ${email}`,
+      newUser,
+      "email-verification"
+    );
   } catch (error) {
     console.log("🚀 ~ handleRegister ~ error:", error);
     throw error;
