@@ -8,6 +8,7 @@ import bcrypt from "bcryptjs";
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { generateVerificationToken } from "@/lib/token";
+import { sendVerificationMail } from "@/lib/mail";
 
 export const handleCredentialLogin = async (data: LoginSchemaType) => {
   try {
@@ -40,8 +41,18 @@ export const handleCredentialLogin = async (data: LoginSchemaType) => {
         );
     }
 
-    if (!existingUser.emailVerified) {
-      await generateVerificationToken(email);
+    if (
+      !existingUser.emailVerified &&
+      existingUser.name &&
+      existingUser.email
+    ) {
+      const generatedToken = await generateVerificationToken(email);
+
+      await sendVerificationMail(
+        existingUser?.name,
+        existingUser.email,
+        generatedToken.token
+      );
       return ActionResponse(
         1,
         `We have sent an confirmation email to ${email}`,
