@@ -1,4 +1,5 @@
 import Logo from "@/components/logo";
+import ThemeToggle from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -12,10 +13,11 @@ import { RiMenu5Line } from "react-icons/ri";
 
 const Navbar = () => {
   return (
-    <div className="fixed top-0 w-full bg-white p-3 px-4 border-b felx items-center z-10">
-      <div className="md:max-w-screen-2xl mx-auto flex items-center justify-between ">
+    <div className="fixed top-0 w-full px-4 border-b flex items-center justify-between z-10 h-14">
+      <div className="md:max-w-screen-2xl mx-auto flex items-center justify-between w-full">
         <Logo />
-        <div className="hidden space-x-4 w-full md:block md:w-auto">
+        <div className="hidden space-x-3 w-full md:flex md:w-auto md:items-center">
+          <ThemeToggle />
           <Button variant="secondary">
             <Link href="/auth/register">Signup</Link>
           </Button>
