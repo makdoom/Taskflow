@@ -1,3 +1,4 @@
+import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -13,7 +14,7 @@ const Navbar = () => {
   return (
     <div className="fixed top-0 w-full bg-white p-3 px-4 border-b felx items-center z-10">
       <div className="md:max-w-screen-2xl mx-auto flex items-center justify-between ">
-        <h1 className="text-xl font-bold tracking-wide">Taskflow</h1>
+        <Logo />
         <div className="hidden space-x-4 w-full md:block md:w-auto">
           <Button variant="secondary">
             <Link href="/auth/register">Signup</Link>
