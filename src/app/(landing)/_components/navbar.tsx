@@ -18,7 +18,7 @@ const Navbar = () => {
         <Logo />
         <div className="hidden space-x-3 w-full md:flex md:w-auto md:items-center">
           <ThemeToggle />
-          <Button variant="secondary">
+          <Button variant="outline">
             <Link href="/auth/register">Signup</Link>
           </Button>
           <Button>
