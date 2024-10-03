@@ -1,12 +1,11 @@
 import { ReactNode } from "react";
-import Header from "./_components/header";
 
-const WorkspacesLayout = ({ children }: { children: ReactNode }) => {
+const WorkspaceLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="h-screen">
-      <Header />
+    <div>
+      <h1>Header</h1>
       {children}
     </div>
   );
 };
-export default WorkspacesLayout;
+export default WorkspaceLayout;
