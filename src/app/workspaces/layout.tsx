@@ -1,9 +1,11 @@
 import { ReactNode } from "react";
+import Header from "./_components/header";
 
 const WorkspaceLayout = ({ children }: { children: ReactNode }) => {
   return (
     <div>
-      <h1>Header</h1>
+      <Header />
+
       {children}
     </div>
   );
