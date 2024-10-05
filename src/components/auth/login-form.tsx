@@ -14,7 +14,7 @@ import { LoginSchema, LoginSchemaType } from "@/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { handleCredentialLogin } from "@/actions/authActions/login";
+import { handleCredentialLogin } from "@/actions/auth/login";
 import { toast } from "sonner";
 import { useSearchParams } from "next/navigation";
 import ErrorCard from "../ErrorCard";

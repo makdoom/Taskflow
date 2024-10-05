@@ -1,6 +1,9 @@
+import { auth } from "@/auth";
 import { Button } from "@/components/ui/button";
 
-const HomeComponent = () => {
+const HomeComponent = async () => {
+  const session = await auth();
+  console.log(session);
   return (
     <div className="w-full flex justify-center items-center flex-col space-y-10">
       <div className="flex flex-col space-y-2 items-center px-2 md:px-4">

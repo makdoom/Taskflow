@@ -1,4 +1,4 @@
-import { handleRegister } from "@/actions/authActions/register";
+import { handleRegister } from "@/actions/auth/register";
 import { Button } from "@/components/ui/button";
 import {
   Form,

@@ -1,6 +1,6 @@
 "use client";
 
-import { emailVerification } from "@/actions/authActions/emailVerification";
+import { emailVerification } from "@/actions/auth/emailVerification";
 import CardWrapper from "@/components/wrapper/card-wrapper";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";

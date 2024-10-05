@@ -53,3 +53,9 @@ model VerificationToken {
 
   @@unique([email, token])
 }
+
+model Board {
+  id String @id @default(cuid())
+
+  title String
+}
