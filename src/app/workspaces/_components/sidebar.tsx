@@ -6,32 +6,55 @@ import { cn } from "@/lib/utils";
 import { FiHome, FiPlus } from "react-icons/fi";
 import WorkspaceNavItem from "./workspace-nav-item";
 import { usePathname } from "next/navigation";
-import { useLocalStorage } from "usehooks-ts";
+import { useEffect, useState } from "react";
 
-type WorkspacePropType = {
-  storageKey: string;
-};
+type AccordionType = Record<string, boolean>;
 
 const workspaces = [
   { label: "Workspace-1", id: "1" },
   { label: "Workspace-2", id: "2" },
 ];
 
-const Sidebar = ({ storageKey }: WorkspacePropType) => {
+const Sidebar = () => {
   const pathname = usePathname();
-  const [expanded, setExpanded] = useLocalStorage<Record<string, boolean>>(
-    storageKey,
-    {}
+  const [expanded, setExpanded] = useState<AccordionType>({});
+  const [defaultAccordionValue, setDefaultAccordionValue] = useState<string[]>(
+    []
   );
 
-  const handleExpand = (id: string) => {
-    setExpanded((prev) => ({
-      ...prev,
-      [id]: !expanded[id],
-    }));
+  const getAccordionDefaultState = (state: AccordionType) => {
+    const defaultAccordionValue: string[] = Object.keys(state).reduce(
+      (acc: string[], curr: string) => {
+        if (state[curr]) {
+          acc.push(curr);
+        }
+        return acc;
+      },
+      []
+    );
+
+    return defaultAccordionValue;
   };
 
-  console.log(expanded);
+  const handleExpand = (id: string) => {
+    const updatedState = { ...expanded, [id]: !expanded[id] };
+    setExpanded(updatedState);
+    setDefaultAccordionValue(getAccordionDefaultState(updatedState));
+
+    localStorage.setItem("t-sidebar-state", JSON.stringify(updatedState));
+  };
+
+  useEffect(() => {
+    const sidebarState = localStorage.getItem("t-sidebar-state");
+    if (sidebarState) {
+      const parsedState = JSON.parse(sidebarState);
+      setExpanded(parsedState);
+
+      setDefaultAccordionValue(getAccordionDefaultState(parsedState));
+    }
+  }, []);
+
+  console.log(defaultAccordionValue);
   return (
     <div className="flex flex-col">
       <div
@@ -52,7 +75,12 @@ const Sidebar = ({ storageKey }: WorkspacePropType) => {
         </Button>
       </div>
 
-      <Accordion type="multiple" defaultValue={[]} className="mt-3">
+      <Accordion
+        type="multiple"
+        value={defaultAccordionValue}
+        // defaultValue={defaultAccordionValue}
+        className="mt-3"
+      >
         {workspaces.map((workspace) => (
           <WorkspaceNavItem
             key={workspace.id}

@@ -1,5 +1,3 @@
-"use client";
-
 import {
   AccordionContent,
   AccordionItem,
@@ -8,7 +6,6 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
 import { CiSettings } from "react-icons/ci";
 import { FaTrello } from "react-icons/fa";
 
@@ -33,24 +30,13 @@ type WorkspaceItemProp = {
   onExpand: (id: string) => void;
 };
 
-const WorkspaceNavItem = ({
-  isExpanded,
-  workspace,
-  onExpand,
-}: WorkspaceItemProp) => {
-  const [stayHydrated, setStayHydrated] = useState(false);
-
-  useEffect(() => {
-    setStayHydrated(true);
-  }, []);
-  console.log({ isExpanded });
+const WorkspaceNavItem = ({ workspace, onExpand }: WorkspaceItemProp) => {
   return (
     <AccordionItem value={workspace.id} className="border-none mb-3">
       <AccordionTrigger
         onClick={() => onExpand(workspace.id)}
         className={cn(
-          "flex items-center p-1.5 gap-x-2 rounded-md transition text-start no-underline hover:no-underline hover:bg-secondary",
-          !isExpanded && !stayHydrated ? "bg-secondary" : ""
+          "flex items-center p-1.5 gap-x-2 rounded-md transition text-start no-underline hover:no-underline hover:bg-secondary"
         )}
       >
         <div className="flex items-center gap-x-3">
