@@ -80,7 +80,7 @@ const WorkspaceNavItem = ({
             variant="ghost"
             className={cn(
               "text-start font-normal justify-start mx-4 text-muted-foreground",
-              item.name.toLowerCase().includes(pathname.toLowerCase()) &&
+              pathname.toLowerCase().includes(item.name.toLowerCase()) &&
                 "bg-secondary text-primary"
             )}
             onClick={() => handleNavigate(item.href)}

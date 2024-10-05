@@ -1,9 +1,12 @@
-import { auth } from "@/auth";
-import { Button } from "@/components/ui/button";
+"use client";
 
-const HomeComponent = async () => {
-  const session = await auth();
-  console.log(session);
+import { Button } from "@/components/ui/button";
+import CreateWorkspace from "@/app/workspaces/_components/create-workspace";
+import { useCreateWorkspace } from "@/hooks/use-create-workspace";
+
+const HomeComponent = () => {
+  const { isOpen, onOpen, onClose } = useCreateWorkspace((state) => state);
+
   return (
     <div className="w-full flex justify-center items-center flex-col space-y-10">
       <div className="flex flex-col space-y-2 items-center px-2 md:px-4">
@@ -15,9 +18,11 @@ const HomeComponent = async () => {
         </span>
       </div>
 
-      <Button className="py-6 mt-6" size="lg">
+      <Button className="py-6 mt-6" size="lg" onClick={onOpen}>
         Create Workspace
       </Button>
+
+      <CreateWorkspace isOpen={isOpen} onClose={onClose} />
     </div>
   );
 };
