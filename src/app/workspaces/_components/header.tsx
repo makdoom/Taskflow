@@ -3,6 +3,7 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "@/components/theme-toggle";
 import UserMenu from "./user-menu";
+import MobileSidebar from "@/components/mobile-sidebar";
 
 const Header = () => {
   return (
@@ -11,6 +12,8 @@ const Header = () => {
         <div className="hidden md:flex">
           <Logo />
         </div>
+
+        <MobileSidebar />
 
         <div className="flex gap-x-3">
           <ThemeToggle />

@@ -69,7 +69,7 @@ const Sidebar = () => {
         <FiHome className="size-4" />
         <span className="text-sm font-medium">Home</span>
       </div>
-      <div className="flex items-center justify-between px-2 mt-4">
+      <div className="flex items-center justify-between  mt-4">
         <span className="text-sm font-medium text-muted-foreground">
           Workspaces
         </span>
