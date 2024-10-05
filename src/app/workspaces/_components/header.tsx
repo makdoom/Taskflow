@@ -6,7 +6,7 @@ import UserMenu from "./user-menu";
 
 const Header = () => {
   return (
-    <div className="fixed top-0 z-50 w-full border-b bg-background h-14 shadow-sm flex items-center ">
+    <div className="fixed top-0 z-50 w-full border-b bg-background h-12 shadow-sm flex items-center ">
       <div className="flex items-center gap-x-4 justify-between w-full px-4">
         <div className="hidden md:flex">
           <Logo />
@@ -14,7 +14,7 @@ const Header = () => {
 
         <div className="flex gap-x-3">
           <ThemeToggle />
-          <Button variant="outline" className="rounded-full size-10 p-0">
+          <Button variant="outline" className="rounded-full size-8 p-0">
             <IoNotificationsOutline className="size-4" />
           </Button>
 

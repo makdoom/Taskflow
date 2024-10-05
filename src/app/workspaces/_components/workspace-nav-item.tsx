@@ -6,21 +6,28 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { CiSettings } from "react-icons/ci";
-import { FaTrello } from "react-icons/fa";
+import { usePathname, useRouter } from "next/navigation";
+import { FiLayout, FiUsers } from "react-icons/fi";
+import { IoSettingsOutline } from "react-icons/io5";
 
 const routes = [
   {
     id: "1",
     name: "Boards",
-    icon: <FaTrello className="size-4 mr-2" />,
-    href: "/workspace/boards",
+    icon: <FiLayout className="size-4 mr-2" />,
+    href: "/workspaces/1/boards",
   },
   {
     id: "2",
+    name: "Members",
+    icon: <FiUsers className="size-4 mr-2" />,
+    href: "/workspaces/2/members",
+  },
+  {
+    id: "3",
     name: "Settings",
-    icon: <CiSettings className="size-4 mr-2" />,
-    href: "/workspace/settings",
+    icon: <IoSettingsOutline className="size-4 mr-2" />,
+    href: "/workspaces/3/settings",
   },
 ];
 
@@ -30,7 +37,18 @@ type WorkspaceItemProp = {
   onExpand: (id: string) => void;
 };
 
-const WorkspaceNavItem = ({ workspace, onExpand }: WorkspaceItemProp) => {
+const WorkspaceNavItem = ({
+  isExpanded,
+  workspace,
+  onExpand,
+}: WorkspaceItemProp) => {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleNavigate = (href: string) => {
+    router.push(href);
+  };
+
   return (
     <AccordionItem value={workspace.id} className="border-none mb-3">
       <AccordionTrigger
@@ -45,17 +63,30 @@ const WorkspaceNavItem = ({ workspace, onExpand }: WorkspaceItemProp) => {
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
 
-          <span className={cn("text-muted-foreground")}>{workspace.label}</span>
+          <span
+            className={cn(
+              "text-muted-foreground",
+              isExpanded && "text-primary"
+            )}
+          >
+            {workspace.label}
+          </span>
         </div>
       </AccordionTrigger>
-      <AccordionContent className="flex flex-col space-y-1">
+      <AccordionContent className="flex flex-col space-y-1 pt-2">
         {routes.map((item) => (
           <Button
             key={item.id}
             variant="ghost"
-            className="text-start font-normal justify-start"
+            className={cn(
+              "text-start font-normal justify-start mx-4 text-muted-foreground",
+              item.name.toLowerCase().includes(pathname.toLowerCase()) &&
+                "bg-secondary text-primary"
+            )}
+            onClick={() => handleNavigate(item.href)}
           >
-            {item.name}
+            {item.icon}
+            <span className="text-sm">{item.name}</span>
           </Button>
         ))}
       </AccordionContent>

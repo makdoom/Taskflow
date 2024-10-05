@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { FiHome, FiPlus } from "react-icons/fi";
 import WorkspaceNavItem from "./workspace-nav-item";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type AccordionType = Record<string, boolean>;
@@ -17,10 +17,13 @@ const workspaces = [
 
 const Sidebar = () => {
   const pathname = usePathname();
+  const router = useRouter();
   const [expanded, setExpanded] = useState<AccordionType>({});
   const [defaultAccordionValue, setDefaultAccordionValue] = useState<string[]>(
     []
   );
+
+  const handleNavigateToHome = () => router.push("/workspaces");
 
   const getAccordionDefaultState = (state: AccordionType) => {
     const defaultAccordionValue: string[] = Object.keys(state).reduce(
@@ -54,10 +57,10 @@ const Sidebar = () => {
     }
   }, []);
 
-  console.log(defaultAccordionValue);
   return (
     <div className="flex flex-col">
       <div
+        onClick={handleNavigateToHome}
         className={cn(
           "flex items-center gap-x-2 cursor-pointer hover:bg-secondary p-2 rounded-md",
           pathname === "/workspaces" && "bg-secondary"
@@ -75,12 +78,7 @@ const Sidebar = () => {
         </Button>
       </div>
 
-      <Accordion
-        type="multiple"
-        value={defaultAccordionValue}
-        // defaultValue={defaultAccordionValue}
-        className="mt-3"
-      >
+      <Accordion type="multiple" value={defaultAccordionValue} className="mt-3">
         {workspaces.map((workspace) => (
           <WorkspaceNavItem
             key={workspace.id}

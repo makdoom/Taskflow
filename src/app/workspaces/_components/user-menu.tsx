@@ -16,9 +16,9 @@ const UserMenu = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="outline-none">
-        <Avatar>
+        <Avatar className="size-8">
           <AvatarImage src="" />
-          <AvatarFallback>MS</AvatarFallback>
+          <AvatarFallback>M</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[250px] mr-2">
