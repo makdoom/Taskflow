@@ -19,7 +19,7 @@ const HomeItem = () => {
       )}
     >
       <FiHome className="size-4" />
-      <span className="text-sm font-medium">Home</span>
+      <span className="text-xs sm:text-sm font-medium">Home</span>
     </div>
   );
 };

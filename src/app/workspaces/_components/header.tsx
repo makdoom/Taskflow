@@ -13,7 +13,9 @@ const Header = () => {
           <Logo />
         </div>
 
-        <MobileSidebar />
+        <div className="block md:hidden">
+          <MobileSidebar />
+        </div>
 
         <div className="flex gap-x-3">
           <ThemeToggle />

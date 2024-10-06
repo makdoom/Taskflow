@@ -50,9 +50,9 @@ const WorkspaceNavItem = ({
   const handleNavigate = (id: string, name: string) => {
     router.push(`/workspaces/${id}/${name?.toLowerCase()}`);
   };
-  console.log(pathname);
+
   return (
-    <AccordionItem value={workspace.id} className="border-none mb-3">
+    <AccordionItem value={workspace.id} className="border-none mb-1 sm:mb-3">
       <AccordionTrigger
         onClick={() => onExpand(workspace.id)}
         className={cn(
@@ -72,7 +72,7 @@ const WorkspaceNavItem = ({
 
           <span
             className={cn(
-              "text-muted-foreground",
+              "text-muted-foreground text-xs sm:text-sm",
               isExpanded && "text-primary"
             )}
           >
@@ -80,7 +80,7 @@ const WorkspaceNavItem = ({
           </span>
         </div>
       </AccordionTrigger>
-      <AccordionContent className="flex flex-col space-y-1 pt-2">
+      <AccordionContent className="flex flex-col space-y-0 sm:space-y-1 pt-2">
         {routes.map((item) => (
           <Button
             key={item.id}
@@ -94,7 +94,7 @@ const WorkspaceNavItem = ({
             onClick={() => handleNavigate(workspace.id, item.name)}
           >
             {item.icon}
-            <span className="text-sm">{item.name}</span>
+            <span className="text-xs sm:text-sm">{item.name}</span>
           </Button>
         ))}
       </AccordionContent>
