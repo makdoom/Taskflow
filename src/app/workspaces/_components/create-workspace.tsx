@@ -72,9 +72,9 @@ const CreateWorkspace = ({ isOpen, onClose }: CreateWorkspaceProp) => {
           <Form {...form}>
             <form className="" onSubmit={form.handleSubmit(handleSubmit)}>
               <div className="flex items-center justify-center">
-                <Avatar className="size-24 ">
+                <Avatar className="size-24 rounded-xl">
                   <AvatarFallback
-                    className={`text-4xl font-medium ${
+                    className={`text-5xl font-medium text-white rounded-xl ${
                       GRADIENTS[form?.control?._defaultValues?.gradientId || 1]
                     }`}
                   >

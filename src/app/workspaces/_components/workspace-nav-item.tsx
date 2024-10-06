@@ -3,8 +3,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { GRADIENTS } from "@/constants/gradients";
 import { cn } from "@/lib/utils";
 import { Workspace } from "@prisma/client";
 import { usePathname, useRouter } from "next/navigation";
@@ -16,19 +17,19 @@ const routes = [
     id: "1",
     name: "Boards",
     icon: <FiLayout className="size-4 mr-2" />,
-    href: "/workspaces/1/boards",
+    // href: "/workspaces/1/boards",
   },
   {
     id: "2",
     name: "Members",
     icon: <FiUsers className="size-4 mr-2" />,
-    href: "/workspaces/2/members",
+    // href: "/workspaces/2/members",
   },
   {
     id: "3",
     name: "Settings",
     icon: <IoSettingsOutline className="size-4 mr-2" />,
-    href: "/workspaces/3/settings",
+    // href: "/workspaces/3/settings",
   },
 ];
 
@@ -46,10 +47,10 @@ const WorkspaceNavItem = ({
   const router = useRouter();
   const pathname = usePathname();
 
-  const handleNavigate = (href: string) => {
-    router.push(href);
+  const handleNavigate = (id: string, name: string) => {
+    router.push(`/workspaces/${id}/${name?.toLowerCase()}`);
   };
-
+  console.log(pathname);
   return (
     <AccordionItem value={workspace.id} className="border-none mb-3">
       <AccordionTrigger
@@ -60,8 +61,13 @@ const WorkspaceNavItem = ({
       >
         <div className="flex items-center gap-x-3">
           <Avatar className="size-8 rounded-md">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarFallback
+              className={`rounded-md text-white ${
+                GRADIENTS?.[workspace.gradientId]
+              }`}
+            >
+              {workspace.name[0]?.toUpperCase()}
+            </AvatarFallback>
           </Avatar>
 
           <span
@@ -81,10 +87,11 @@ const WorkspaceNavItem = ({
             variant="ghost"
             className={cn(
               "text-start font-normal justify-start mx-4 text-muted-foreground",
-              pathname.toLowerCase().includes(item.name.toLowerCase()) &&
+              pathname.split("/").slice(2).join("/") ===
+                `${workspace.id}/${item.name.toLowerCase()}` &&
                 "bg-secondary text-primary"
             )}
-            onClick={() => handleNavigate(item.href)}
+            onClick={() => handleNavigate(workspace.id, item.name)}
           >
             {item.icon}
             <span className="text-sm">{item.name}</span>

@@ -13,7 +13,7 @@ export const getWorkspaceList = async () => {
     }
     const workspaceList = await prisma.workspace.findMany({
       where: { userId: id },
-      orderBy: {},
+      orderBy: { createdAt: "desc" },
     });
     return ActionResponse(
       1,
@@ -23,6 +23,29 @@ export const getWorkspaceList = async () => {
     );
   } catch (error) {
     console.log("🚀 ~ getWorkspaceList ~ error:", error);
+    throw error;
+  }
+};
+
+export const getCurrentWorkspaceInfo = async (workspaceId: string) => {
+  try {
+    const session = await auth();
+    const id = session?.user?.id;
+    if (!id) {
+      return ActionResponse(0, "Unauthorized user", null, "get-workspace-list");
+    }
+
+    const workspace = await prisma.workspace.findUnique({
+      where: { id: workspaceId },
+    });
+    return ActionResponse(
+      1,
+      `Workspace fetched successfully`,
+      workspace,
+      "get-workspace"
+    );
+  } catch (error) {
+    console.log("🚀 ~ getCurrentWorkspaceInfo ~ error:", error);
     throw error;
   }
 };

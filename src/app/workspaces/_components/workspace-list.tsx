@@ -1,10 +1,8 @@
 "use client";
 
-// import { getWorkspaceList } from "@/actions/workspace";
 import { Accordion } from "@/components/ui/accordion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Workspace } from "@prisma/client";
-// import { toast } from "sonner";
 import WorkspaceNavItem from "./workspace-nav-item";
 import { Button } from "@/components/ui/button";
 import { FiPlus } from "react-icons/fi";
@@ -39,6 +37,16 @@ const WorkspaceList = ({ workspaces }: WorkspaceListProp) => {
 
     localStorage.setItem("t-sidebar-state", JSON.stringify(updatedState));
   };
+
+  useEffect(() => {
+    const sidebarState = localStorage.getItem("t-sidebar-state");
+    if (sidebarState) {
+      const parsedState = JSON.parse(sidebarState);
+      setExpanded(parsedState);
+
+      setDefaultAccordionValue(getAccordionDefaultState(parsedState));
+    }
+  }, []);
 
   return (
     <div>
