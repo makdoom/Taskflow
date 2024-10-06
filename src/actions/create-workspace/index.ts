@@ -5,6 +5,7 @@ import { InputType, ReturnType } from "./types";
 import { prisma } from "@/lib/prisma";
 import { CreateSafeAction } from "@/lib/create-safe-action";
 import { CreateWorkspaceSchema } from "./schema";
+import { revalidatePath } from "next/cache";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const session = await auth();
@@ -35,6 +36,8 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     };
   }
 
+  revalidatePath("/workspaces", "layout");
+  console.log("revalidated");
   return { data: newWorkspace };
 };
 

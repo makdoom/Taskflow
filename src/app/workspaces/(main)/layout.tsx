@@ -1,8 +1,5 @@
 import { ReactNode } from "react";
-// import Sidebar from "../_components/sidebar";
-import dynamic from "next/dynamic";
-
-const Sidebar = dynamic(() => import("../_components/sidebar"));
+import Sidebar from "../_components/sidebar";
 
 const MainHomeLayout = ({ children }: { children: ReactNode }) => {
   return (
@@ -10,6 +7,8 @@ const MainHomeLayout = ({ children }: { children: ReactNode }) => {
       <div className="flex gap-x-7 h-full">
         <div className="w-64 shrink-0 hidden md:block">
           <Sidebar />
+
+          {/* <WorkSpaceList /> */}
         </div>
         {children}
       </div>

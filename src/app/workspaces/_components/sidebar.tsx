@@ -1,93 +1,23 @@
-"use client";
+import { getWorkspaceList } from "@/actions/workspace";
+import HomeItem from "./home-item";
+import WorkspaceList from "./workspace-list";
+import { Workspace } from "@prisma/client";
 
-import { Accordion } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { FiHome, FiPlus } from "react-icons/fi";
-import WorkspaceNavItem from "./workspace-nav-item";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+const Sidebar = async () => {
+  let workspaceList: Workspace[];
 
-type AccordionType = Record<string, boolean>;
-
-const workspaces = [
-  { label: "Workspace-1", id: "1" },
-  { label: "Workspace-2", id: "2" },
-];
-
-const Sidebar = () => {
-  const pathname = usePathname();
-  const router = useRouter();
-  const [expanded, setExpanded] = useState<AccordionType>({});
-  const [defaultAccordionValue, setDefaultAccordionValue] = useState<string[]>(
-    []
-  );
-
-  const handleNavigateToHome = () => router.push("/workspaces");
-
-  const getAccordionDefaultState = (state: AccordionType) => {
-    const defaultAccordionValue: string[] = Object.keys(state).reduce(
-      (acc: string[], curr: string) => {
-        if (state[curr]) {
-          acc.push(curr);
-        }
-        return acc;
-      },
-      []
-    );
-
-    return defaultAccordionValue;
-  };
-
-  const handleExpand = (id: string) => {
-    const updatedState = { ...expanded, [id]: !expanded[id] };
-    setExpanded(updatedState);
-    setDefaultAccordionValue(getAccordionDefaultState(updatedState));
-
-    localStorage.setItem("t-sidebar-state", JSON.stringify(updatedState));
-  };
-
-  useEffect(() => {
-    const sidebarState = localStorage.getItem("t-sidebar-state");
-    if (sidebarState) {
-      const parsedState = JSON.parse(sidebarState);
-      setExpanded(parsedState);
-
-      setDefaultAccordionValue(getAccordionDefaultState(parsedState));
-    }
-  }, []);
-
+  try {
+    const response = await getWorkspaceList();
+    workspaceList = response.data as Workspace[];
+  } catch (error) {
+    console.error("Failed to fetch workspaces:", error);
+    workspaceList = [];
+  }
   return (
     <div className="flex flex-col">
-      <div
-        onClick={handleNavigateToHome}
-        className={cn(
-          "flex items-center gap-x-2 cursor-pointer hover:bg-secondary p-2 rounded-md",
-          pathname === "/workspaces" && "bg-secondary"
-        )}
-      >
-        <FiHome className="size-4" />
-        <span className="text-sm font-medium">Home</span>
-      </div>
-      <div className="flex items-center justify-between  mt-4">
-        <span className="text-sm font-medium text-muted-foreground">
-          Workspaces
-        </span>
-        <Button variant="outline" size="icon" className="size-7">
-          <FiPlus className="size-3" />
-        </Button>
-      </div>
+      <HomeItem />
 
-      <Accordion type="multiple" value={defaultAccordionValue} className="mt-3">
-        {workspaces.map((workspace) => (
-          <WorkspaceNavItem
-            key={workspace.id}
-            isExpanded={expanded[workspace.id]}
-            workspace={workspace}
-            onExpand={handleExpand}
-          />
-        ))}
-      </Accordion>
+      <WorkspaceList workspaces={workspaceList} />
     </div>
   );
 };

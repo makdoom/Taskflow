@@ -6,6 +6,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Workspace } from "@prisma/client";
 import { usePathname, useRouter } from "next/navigation";
 import { FiLayout, FiUsers } from "react-icons/fi";
 import { IoSettingsOutline } from "react-icons/io5";
@@ -33,7 +34,7 @@ const routes = [
 
 type WorkspaceItemProp = {
   isExpanded: boolean;
-  workspace: { id: string; label: string };
+  workspace: Workspace;
   onExpand: (id: string) => void;
 };
 
@@ -69,7 +70,7 @@ const WorkspaceNavItem = ({
               isExpanded && "text-primary"
             )}
           >
-            {workspace.label}
+            {workspace.name}
           </span>
         </div>
       </AccordionTrigger>
