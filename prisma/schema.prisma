@@ -14,13 +14,14 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String      @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?     @unique
   emailVerified DateTime?
   password      String?
   image         String?
   accounts      Account[]
+  workspaces    Workspace[]
 
   @@map("users")
 }
@@ -52,6 +53,17 @@ model VerificationToken {
   expires DateTime
 
   @@unique([email, token])
+}
+
+model Workspace {
+  id          String  @id @default(cuid())
+  name        String
+  website     String?
+  description String?
+  gradientId  Int
+  userId      String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Board {

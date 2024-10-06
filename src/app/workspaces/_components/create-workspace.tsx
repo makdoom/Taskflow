@@ -1,3 +1,4 @@
+import { createWorkspace } from "@/actions/create-workspace";
 import {
   CreateWorkspaceSchema,
   CreateWorspaceType,
@@ -22,8 +23,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { generateRandomGradient, GRADIENTS } from "@/constants/gradients";
+import { useAction } from "@/hooks/use-action";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { FiLoader } from "react-icons/fi";
+import { toast } from "sonner";
 
 type CreateWorkspaceProp = {
   isOpen: boolean;
@@ -41,8 +45,20 @@ const CreateWorkspace = ({ isOpen, onClose }: CreateWorkspaceProp) => {
     },
   });
 
+  const { execute, isLoading } = useAction(createWorkspace, {
+    onSuccess: (data) => {
+      console.log("successfull", data);
+      toast.success("Workspace created successfully");
+      onClose();
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error(error);
+    },
+  });
+
   const handleSubmit = async (data: CreateWorspaceType) => {
-    console.log(data);
+    execute(data);
   };
 
   return (
@@ -81,10 +97,10 @@ const CreateWorkspace = ({ isOpen, onClose }: CreateWorkspaceProp) => {
                           placeholder="eg: Workspace-1"
                           type="text"
                           autoFocus
-                          // disabled={isSubmitting}
+                          disabled={isLoading}
                         />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="dark:text-red-400" />
                     </FormItem>
                   )}
                 />
@@ -102,7 +118,7 @@ const CreateWorkspace = ({ isOpen, onClose }: CreateWorkspaceProp) => {
                           {...field}
                           placeholder="https://www.workspace.com"
                           type="text"
-                          // disabled={isSubmitting}
+                          disabled={isLoading}
                         />
                       </FormControl>
                       <FormMessage />
@@ -125,7 +141,7 @@ const CreateWorkspace = ({ isOpen, onClose }: CreateWorkspaceProp) => {
                           {...field}
                           placeholder="About workspace"
                           rows={5}
-                          // disabled={isSubmitting}
+                          disabled={isLoading}
                         />
                       </FormControl>
                       <FormMessage />
@@ -134,12 +150,16 @@ const CreateWorkspace = ({ isOpen, onClose }: CreateWorkspaceProp) => {
                 />
               </div>
 
-              <div className="flex justify-end w-full mt-6 gap-x-4">
+              <div className="flex items-center justify-end w-full mt-6 gap-x-4">
                 <Button variant="secondary" onClick={onClose}>
-                  {/* {isSubmitting && <FiLoader className="animate-spin size-5 mr-2" />} */}
                   Cancel
                 </Button>
-                <Button>Create</Button>
+                <Button>
+                  {isLoading && (
+                    <FiLoader className="animate-spin size-5 mr-2" />
+                  )}
+                  Create
+                </Button>
               </div>
             </form>
           </Form>
