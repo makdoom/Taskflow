@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import CardWrapper from "@/components/wrapper/card-wrapper";
-import { LoginSchema, LoginSchemaType } from "@/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -20,6 +19,7 @@ import { useSearchParams } from "next/navigation";
 import ErrorCard from "../ErrorCard";
 import { useEffect, useState } from "react";
 import { FiLoader } from "react-icons/fi";
+import { LoginSchema, LoginSchemaType } from "@/actions/auth/schema";
 
 const LoginForm = () => {
   const searchParams = useSearchParams();

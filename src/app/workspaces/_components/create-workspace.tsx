@@ -1,3 +1,7 @@
+import {
+  CreateWorkspaceSchema,
+  CreateWorspaceType,
+} from "@/actions/create-workspace/schema";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,7 +22,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { generateRandomGradient, GRADIENTS } from "@/constants/gradients";
-import { CreateWorkspaceSchema, CreateWorspaceType } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
@@ -37,7 +40,10 @@ const CreateWorkspace = ({ isOpen, onClose }: CreateWorkspaceProp) => {
       gradientId: generateRandomGradient(),
     },
   });
-  console.log(form.control?._defaultValues);
+
+  const handleSubmit = async (data: CreateWorspaceType) => {
+    console.log(data);
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -48,7 +54,7 @@ const CreateWorkspace = ({ isOpen, onClose }: CreateWorkspaceProp) => {
         </DialogHeader>
         <div className="mt-4">
           <Form {...form}>
-            <form className="">
+            <form className="" onSubmit={form.handleSubmit(handleSubmit)}>
               <div className="flex items-center justify-center">
                 <Avatar className="size-24 ">
                   <AvatarFallback
@@ -118,6 +124,7 @@ const CreateWorkspace = ({ isOpen, onClose }: CreateWorkspaceProp) => {
                         <Textarea
                           {...field}
                           placeholder="About workspace"
+                          rows={5}
                           // disabled={isSubmitting}
                         />
                       </FormControl>
@@ -128,7 +135,7 @@ const CreateWorkspace = ({ isOpen, onClose }: CreateWorkspaceProp) => {
               </div>
 
               <div className="flex justify-end w-full mt-6 gap-x-4">
-                <Button variant="secondary">
+                <Button variant="secondary" onClick={onClose}>
                   {/* {isSubmitting && <FiLoader className="animate-spin size-5 mr-2" />} */}
                   Cancel
                 </Button>

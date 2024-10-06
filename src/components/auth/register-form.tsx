@@ -10,12 +10,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import CardWrapper from "@/components/wrapper/card-wrapper";
-import { RegisterSchema, RegisterSchemaType } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { FiLoader } from "react-icons/fi";
 import { useRouter } from "next/navigation";
+import { RegisterSchema, RegisterSchemaType } from "@/actions/auth/schema";
 
 const RegisterForm = () => {
   const router = useRouter();

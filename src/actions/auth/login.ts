@@ -2,13 +2,13 @@
 
 import { ActionResponse } from "@/lib/response";
 import { getUserByEmail } from "@/lib/user";
-import { LoginSchema, LoginSchemaType } from "@/schema";
 import { AuthError } from "next-auth";
 import bcrypt from "bcryptjs";
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { generateVerificationToken } from "@/lib/token";
 import { sendVerificationMail } from "@/lib/mail";
+import { LoginSchema, LoginSchemaType } from "./schema";
 
 export const handleCredentialLogin = async (data: LoginSchemaType) => {
   try {

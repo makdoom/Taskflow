@@ -4,8 +4,8 @@ import { ActionResponse } from "@/lib/response";
 import { sendVerificationMail } from "@/lib/mail";
 import { generateVerificationToken } from "@/lib/token";
 import { createNewUser, getUserByEmail } from "@/lib/user";
-import { RegisterSchema, RegisterSchemaType } from "@/schema";
 import bcrypt from "bcryptjs";
+import { RegisterSchema, RegisterSchemaType } from "./schema";
 
 export const handleRegister = async (data: RegisterSchemaType) => {
   try {
