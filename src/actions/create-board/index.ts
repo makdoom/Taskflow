@@ -5,6 +5,7 @@ import { InputType, ReturnType } from "./types";
 import { prisma } from "@/lib/prisma";
 import { CreateSafeAction } from "@/lib/create-safe-action";
 import { CreateBoard } from "./schema";
+import { revalidatePath } from "next/cache";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const session = await auth();
@@ -26,6 +27,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   }
 
   // Need to revalidate board path here
+  revalidatePath("/workspaces/cm1xqho5c0007sbwa81ts6pni/boards");
   return { data: board };
 };
 

@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { ActionResponse } from "@/lib/response";
 
 export const getWorkspaceList = async () => {
+  console.log("hello");
   try {
     const session = await auth();
     const id = session?.user?.id;

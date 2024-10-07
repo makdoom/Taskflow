@@ -22,7 +22,7 @@ const HomeComponent = () => {
         Create Workspace
       </Button>
 
-      {isOpen && <CreateWorkspace isOpen={isOpen} onClose={onClose} />}
+      <CreateWorkspace isOpen={isOpen} onClose={onClose} />
     </div>
   );
 };
