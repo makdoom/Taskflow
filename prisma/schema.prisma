@@ -64,6 +64,7 @@ model Workspace {
   userId      String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  boards      Board[]
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -71,5 +72,11 @@ model Workspace {
 model Board {
   id String @id @default(cuid())
 
-  title String
+  title       String
+  gradientId  Int
+  workspaceId String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
 }

@@ -1,8 +1,8 @@
-import { createWorkspace } from "@/actions/create-workspace";
+import { createWorkspace } from "@/actions/workspace";
 import {
   CreateWorkspaceSchema,
   CreateWorspaceType,
-} from "@/actions/create-workspace/schema";
+} from "@/actions/workspace/schema";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -163,7 +163,6 @@ const CreateWorkspace = ({ isOpen, onClose }: CreateWorkspaceProp) => {
               </div>
             </form>
           </Form>
-          <div></div>
         </div>
       </DialogContent>
     </Dialog>
