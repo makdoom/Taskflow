@@ -3,8 +3,12 @@ import { getBoardsList } from "@/actions/board";
 import { Board } from "@prisma/client";
 import BoardItemCard from "./board-item-card";
 
-const BoardsList = async () => {
-  const result = await getBoardsList();
+interface BoardsListProps {
+  workspaceId: string;
+}
+
+const BoardsList = async ({ workspaceId }: BoardsListProps) => {
+  const result = await getBoardsList(workspaceId);
   const data = result.data as Board[];
 
   console.log(result.data);

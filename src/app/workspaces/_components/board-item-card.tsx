@@ -27,7 +27,7 @@ const BoardItemCard = ({ type = "new", board }: BoardItemCardProp) => {
   return (
     <>
       <Card
-        className="h-[120px] p-0 cursor-pointer hover:bg-secondary rounded-md"
+        className="h-[120px] p-0 cursor-pointer bg-primary-foreground hover:bg-transparent rounded-md"
         onClick={clickHandler}
       >
         <CardContent

@@ -8,14 +8,16 @@ import { CreateSafeAction } from "@/lib/create-safe-action";
 import { CreateBoardSchema } from "./schema";
 import { revalidatePath } from "next/cache";
 
-export const getBoardsList = async () => {
+export const getBoardsList = async (workspaceId: string) => {
   try {
     const session = await auth();
     const id = session?.user?.id;
     if (!id) {
       return ActionResponse(0, "Unauthorized user", null, "get-workspace-list");
     }
-    const workspaceList = await prisma.board.findMany();
+    const workspaceList = await prisma.board.findMany({
+      where: { workspaceId },
+    });
     return ActionResponse(
       1,
       `Workspaces list fetched successfully`,
