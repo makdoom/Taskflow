@@ -13,8 +13,11 @@ import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { FiEdit2 } from "react-icons/fi";
+import CreateWorkspace from "./create-workspace";
+import { useCreateWorkspace } from "@/hooks/use-create-workspace";
 
 const WorkspaceInfo = () => {
+  const { isOpen, onClose, onOpen } = useCreateWorkspace();
   const pathname = usePathname();
   const [workspace, setWorkspace] = useState<Workspace | null>(null);
 
@@ -61,7 +64,12 @@ const WorkspaceInfo = () => {
         <div className="space-y-1.5">
           <div className="flex items-center gap-x-2">
             <h2 className="text-xl font-semibold">{workspace?.name}</h2>
-            <Button size="icon" className="size-7 p-0" variant="outline">
+            <Button
+              size="icon"
+              className="size-7 p-0"
+              variant="outline"
+              onClick={onOpen}
+            >
               <FiEdit2 className="size-3" />
             </Button>
           </div>
@@ -75,7 +83,7 @@ const WorkspaceInfo = () => {
               <Link href={workspace?.website} target="_blank" className="!mt-0">
                 <div className="flex items-center gap-x-1 text-muted-foreground hover:text-primary">
                   <IoIosLink />
-                  <span className="text-sm">https://makdoom.github.io</span>
+                  <span className="text-sm">{workspace.website}</span>
                 </div>
               </Link>
             )}
@@ -87,6 +95,14 @@ const WorkspaceInfo = () => {
       </div>
 
       <Separator className="mt-6" />
+
+      <CreateWorkspace
+        mode="EDIT"
+        isOpen={isOpen}
+        onClose={onClose}
+        workspace={workspace}
+        getWorkspaceInfo={getWorkspaceInfo}
+      />
     </div>
   );
 };

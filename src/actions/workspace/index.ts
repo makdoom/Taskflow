@@ -4,7 +4,11 @@ import { auth } from "@/auth";
 import { InputType, ReturnType } from "./types";
 import { prisma } from "@/lib/prisma";
 import { CreateSafeAction } from "@/lib/create-safe-action";
-import { CreateWorkspaceSchema } from "./schema";
+import {
+  CreateWorkspaceSchema,
+  EditWorkspaceSchema,
+  EditWorkspaceType,
+} from "./schema";
 import { revalidatePath } from "next/cache";
 import { ActionResponse } from "@/lib/response";
 
@@ -53,6 +57,39 @@ export const getCurrentWorkspaceInfo = async (workspaceId: string) => {
     throw error;
   }
 };
+
+const editWorkspaceHandler = async (
+  data: EditWorkspaceType
+): Promise<ReturnType> => {
+  const session = await auth();
+  const id = session?.user?.id;
+  if (!id) {
+    return {
+      error: "Unauthorized user",
+    };
+  }
+  let newWorkspace;
+  try {
+    newWorkspace = await prisma.workspace.update({
+      where: { id: data.id },
+      data: { ...data },
+    });
+  } catch (error) {
+    return {
+      error:
+        error instanceof Error ? error.message : "Failed to update workspace",
+    };
+  }
+
+  revalidatePath(`/workspaces/${data.id}/boards`, "layout");
+  console.log("revalidated");
+  return { data: newWorkspace };
+};
+
+export const editWorkspace = CreateSafeAction(
+  EditWorkspaceSchema,
+  editWorkspaceHandler
+);
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const session = await auth();

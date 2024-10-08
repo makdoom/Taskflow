@@ -9,3 +9,8 @@ export const CreateWorkspaceSchema = z.object({
   description: z.string().optional(),
 });
 export type CreateWorspaceType = z.infer<typeof CreateWorkspaceSchema>;
+
+export const EditWorkspaceSchema = CreateWorkspaceSchema.extend({
+  id: z.string(),
+});
+export type EditWorkspaceType = z.infer<typeof EditWorkspaceSchema>;

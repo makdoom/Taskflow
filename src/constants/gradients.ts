@@ -1,6 +1,6 @@
 export const GRADIENTS: { [key: number]: string } = {
   1: "bg-gradient-to-r from-red-500 to-orange-500",
-  2: "bg-gradient-to-r from-pink-500 to-rose-500",
+  2: "bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-rose-400 via-fuchsia-500 to-indigo-500",
   3: "bg-gradient-to-r from-blue-800 to-indigo-900",
   4: "bg-gradient-to-r from-indigo-500 to-blue-500",
   5: "bg-gradient-to-r from-blue-600 to-violet-600",

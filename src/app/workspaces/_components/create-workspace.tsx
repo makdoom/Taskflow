@@ -1,7 +1,8 @@
-import { createWorkspace } from "@/actions/workspace";
+import { createWorkspace, editWorkspace } from "@/actions/workspace";
 import {
   CreateWorkspaceSchema,
   CreateWorspaceType,
+  EditWorkspaceType,
 } from "@/actions/workspace/schema";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -25,24 +26,43 @@ import { Textarea } from "@/components/ui/textarea";
 import { generateRandomGradient, GRADIENTS } from "@/constants/gradients";
 import { useAction } from "@/hooks/use-action";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Workspace } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { FiLoader } from "react-icons/fi";
 import { toast } from "sonner";
 
 type CreateWorkspaceProp = {
+  mode: "EDIT" | "NEW";
   isOpen: boolean;
+  workspace?: Workspace;
+
   onClose: () => void;
+  getWorkspaceInfo?: () => void;
 };
 
-const CreateWorkspace = ({ isOpen, onClose }: CreateWorkspaceProp) => {
+const CreateWorkspace = ({
+  mode = "NEW",
+  isOpen,
+  onClose,
+  workspace,
+  getWorkspaceInfo,
+}: CreateWorkspaceProp) => {
   const form = useForm<CreateWorspaceType>({
     resolver: zodResolver(CreateWorkspaceSchema),
-    defaultValues: {
-      name: "",
-      website: "",
-      description: "",
-      gradientId: generateRandomGradient(),
-    },
+    defaultValues:
+      mode == "EDIT" && workspace
+        ? {
+            name: workspace?.name,
+            website: workspace?.website ?? "",
+            description: workspace?.description ?? "",
+            gradientId: workspace?.gradientId,
+          }
+        : {
+            name: "",
+            website: "",
+            description: "",
+            gradientId: generateRandomGradient(),
+          },
   });
 
   const { execute, isLoading } = useAction(createWorkspace, {
@@ -57,8 +77,27 @@ const CreateWorkspace = ({ isOpen, onClose }: CreateWorkspaceProp) => {
     },
   });
 
+  const { execute: editWorkspaceExecute, isLoading: editModeLoading } =
+    useAction(editWorkspace, {
+      onSuccess: (data) => {
+        console.log("successfull", data);
+        toast.success("Workspace updated successfully");
+        getWorkspaceInfo?.();
+        onClose();
+      },
+      onError: (error) => {
+        console.log(error);
+        toast.error(error);
+      },
+    });
+
   const handleSubmit = async (data: CreateWorspaceType) => {
-    execute(data);
+    if (mode === "NEW") {
+      execute(data);
+    } else if (workspace?.id) {
+      const updatedData: EditWorkspaceType = { ...data, id: workspace?.id };
+      editWorkspaceExecute(updatedData);
+    }
   };
 
   return (
@@ -78,7 +117,9 @@ const CreateWorkspace = ({ isOpen, onClose }: CreateWorkspaceProp) => {
                       GRADIENTS[form?.control?._defaultValues?.gradientId || 1]
                     }`}
                   >
-                    W
+                    {mode === "EDIT" && workspace
+                      ? `${workspace.name[0]?.toUpperCase()}`
+                      : "W"}
                   </AvatarFallback>
                 </Avatar>
               </div>
@@ -155,10 +196,11 @@ const CreateWorkspace = ({ isOpen, onClose }: CreateWorkspaceProp) => {
                   Cancel
                 </Button>
                 <Button>
-                  {isLoading && (
-                    <FiLoader className="animate-spin size-5 mr-2" />
-                  )}
-                  Create
+                  {isLoading ||
+                    (editModeLoading && (
+                      <FiLoader className="animate-spin size-5 mr-2" />
+                    ))}
+                  {mode === "EDIT" ? "Update" : "Create"}
                 </Button>
               </div>
             </form>
