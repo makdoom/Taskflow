@@ -7,6 +7,7 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import CreateBoard from "./create-board";
 import { cn } from "@/lib/utils";
 import { GRADIENTS } from "@/constants/gradients";
+import { usePathname, useRouter } from "next/navigation";
 
 type BoardItemCardProp = {
   type: "new" | "redirect";
@@ -15,12 +16,17 @@ type BoardItemCardProp = {
 
 const BoardItemCard = ({ type = "new", board }: BoardItemCardProp) => {
   const { isOpen, onOpen, openFor, onClose } = useDialoge();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const clickHandler = () => {
     if (type == "new") {
       onOpen("create-new-board");
     } else {
       // Redirect mode
+      const workspaceId = pathname.split("/").at(2);
+      if (!workspaceId) return;
+      router.push(`/workspaces/view/${workspaceId}/${board?.id}`);
     }
   };
 

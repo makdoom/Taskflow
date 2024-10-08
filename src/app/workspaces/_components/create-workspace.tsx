@@ -104,7 +104,9 @@ const CreateWorkspace = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create New Workspace</DialogTitle>
+          <DialogTitle>
+            {mode === "NEW" ? "Create New" : "Update"} Workspace
+          </DialogTitle>
           <DialogDescription className="hidden" />
         </DialogHeader>
         <div className="mt-4">
