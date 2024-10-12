@@ -5,7 +5,7 @@ import { Workspace } from "@prisma/client";
 
 const Sidebar = async () => {
   let workspaceList: Workspace[];
-  console.log("Rendering Sidebar component");
+
   try {
     const response = await getWorkspaceList();
     workspaceList = response.data as Workspace[];

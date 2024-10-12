@@ -2,10 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import CreateWorkspace from "@/app/workspaces/_components/create-workspace";
-import { useCreateWorkspace } from "@/hooks/use-create-workspace";
+import { useDialoge } from "@/hooks/use-dialoge";
 
 const HomeComponent = () => {
-  const { isOpen, onOpen, onClose } = useCreateWorkspace((state) => state);
+  const { isOpen, onOpen, onClose, openFor } = useDialoge((state) => state);
 
   return (
     <div className="w-full flex justify-center items-center flex-col space-y-10">
@@ -18,11 +18,19 @@ const HomeComponent = () => {
         </span>
       </div>
 
-      <Button className="py-6 mt-6" size="lg" onClick={onOpen}>
+      <Button
+        className="py-6 mt-6"
+        size="lg"
+        onClick={() => onOpen("create-workspace-home")}
+      >
         Create Workspace
       </Button>
 
-      <CreateWorkspace mode="NEW" isOpen={isOpen} onClose={onClose} />
+      <CreateWorkspace
+        mode="NEW"
+        isOpen={isOpen && openFor === "create-workspace-home"}
+        onClose={onClose}
+      />
     </div>
   );
 };

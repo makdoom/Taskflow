@@ -6,11 +6,14 @@ import { Workspace } from "@prisma/client";
 import WorkspaceNavItem from "./workspace-nav-item";
 import { Button } from "@/components/ui/button";
 import { FiPlus } from "react-icons/fi";
+import CreateWorkspace from "./create-workspace";
+import { useDialoge } from "@/hooks/use-dialoge";
 
 type AccordionType = Record<string, boolean>;
 type WorkspaceListProp = { workspaces: Workspace[] };
 
 const WorkspaceList = ({ workspaces }: WorkspaceListProp) => {
+  const { onOpen, isOpen, onClose, openFor } = useDialoge((state) => state);
   const [expanded, setExpanded] = useState<AccordionType>({});
   const [defaultAccordionValue, setDefaultAccordionValue] = useState<string[]>(
     []
@@ -54,7 +57,12 @@ const WorkspaceList = ({ workspaces }: WorkspaceListProp) => {
         <span className="text-sm font-medium text-muted-foreground">
           Workspaces
         </span>
-        <Button variant="outline" size="icon" className="size-7">
+        <Button
+          variant="outline"
+          size="icon"
+          className="size-7"
+          onClick={() => onOpen("create-workspace")}
+        >
           <FiPlus className="size-3" />
         </Button>
       </div>
@@ -79,6 +87,12 @@ const WorkspaceList = ({ workspaces }: WorkspaceListProp) => {
           You don&apos;t have any workspace yet
         </p>
       )}
+
+      <CreateWorkspace
+        mode="NEW"
+        isOpen={isOpen && openFor === "create-workspace"}
+        onClose={onClose}
+      />
     </div>
   );
 };

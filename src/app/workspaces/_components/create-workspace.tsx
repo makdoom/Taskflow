@@ -76,6 +76,7 @@ const CreateWorkspace = ({
       toast.error(error);
     },
   });
+  console.log("rerender");
 
   const { execute: editWorkspaceExecute, isLoading: editModeLoading } =
     useAction(editWorkspace, {
@@ -100,8 +101,18 @@ const CreateWorkspace = ({
     }
   };
 
+  const handleCloseDialog = () => {
+    form.reset({
+      name: "",
+      description: "",
+      gradientId: generateRandomGradient(),
+      website: "",
+    });
+    onClose();
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={handleCloseDialog}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
