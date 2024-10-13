@@ -32,27 +32,11 @@ const BoardSidebar = async ({ params }: BoardSidebarPropType) => {
 
   return (
     <SidebarToggle>
-      {/*  <div className="flex items-center justify-between pt-3">
-        <div className="flex items-center gap-x-3 justify">
-          <Avatar className="size-8 rounded-md">
-            <AvatarFallback
-              className={`rounded-md text-white ${GRADIENTS?.[5]}`}
-            >
-              W
-            </AvatarFallback>
-          </Avatar>
-
-          <span className={cn("text-xs sm:text-sm")}>Workspace</span>
-        </div>
-        <Button variant="ghost" size="icon">
-          <GoSidebarExpand className="size-5" />
-        </Button>
-      </div> */}
-
       <div className="my-4">
         {routes.map((route) => (
           <BoardSidebarItem
             key={route.id}
+            workspaceId={params.workspaceId}
             name={route.name}
             icon={route.icon}
             isBoardItem={false}
@@ -77,6 +61,7 @@ const BoardSidebar = async ({ params }: BoardSidebarPropType) => {
           {data.map((board) => (
             <BoardSidebarItem
               key={board.id}
+              workspaceId={params.workspaceId}
               name={board.title}
               isBoardItem={true}
               board={board}

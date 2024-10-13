@@ -11,7 +11,7 @@ type BoardIdLayoutPropType = {
 
 const BoardIdLayout = ({ children, params }: BoardIdLayoutPropType) => {
   return (
-    <div className="pt-12 w-full flex gap-x-3 h-[calc(100vh-10px)]">
+    <div className="pt-12 w-full flex gap-x-3 h-[calc(100vh-0px)]">
       <BoardSidebar params={params} />
       {children}
     </div>

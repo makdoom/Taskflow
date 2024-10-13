@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { GRADIENTS } from "@/constants/gradients";
 import { cn } from "@/lib/utils";
 import { Board } from "@prisma/client";
+import { useRouter } from "next/navigation";
 import { ReactNode } from "react";
 
 type BoardSidebarItemPropType = {
@@ -12,7 +13,7 @@ type BoardSidebarItemPropType = {
   icon?: ReactNode;
   isSelected?: boolean;
   board?: Board;
-  onClickItem?: () => void;
+  workspaceId: string;
 };
 
 const BoardSidebarItem = ({
@@ -21,7 +22,13 @@ const BoardSidebarItem = ({
   isBoardItem = false,
   isSelected = false,
   board,
+  workspaceId,
 }: BoardSidebarItemPropType) => {
+  const router = useRouter();
+  const handleClick = (boardId: string) => {
+    router.push(`/workspaces/view/${workspaceId}/${boardId}`);
+  };
+
   return (
     <Button
       variant="ghost"
@@ -29,7 +36,7 @@ const BoardSidebarItem = ({
         "w-full text-start font-normal justify-start text-muted-foreground gap-x-2 my-1 px-3",
         isSelected && "bg-secondary"
       )}
-      // onClick={() => handleNavigate(workspace.id, item.name)}
+      onClick={isBoardItem && board ? () => handleClick?.(board?.id) : () => {}}
     >
       {isBoardItem ? (
         <div

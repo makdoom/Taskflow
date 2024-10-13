@@ -24,9 +24,9 @@ const SidebarToggle = ({ children }: SidebarTogglePropType) => {
     >
       <div className="flex items-center justify-between pt-3">
         <div className="flex items-center gap-x-3 justify">
-          <Avatar className="size-8 rounded-md">
+          <Avatar className="size-6 rounded-md">
             <AvatarFallback
-              className={`rounded-md text-white ${GRADIENTS?.[5]}`}
+              className={`rounded-md text-xs text-white ${GRADIENTS?.[5]}`}
             >
               W
             </AvatarFallback>
