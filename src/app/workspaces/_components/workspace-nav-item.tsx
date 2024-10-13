@@ -17,19 +17,16 @@ const routes = [
     id: "1",
     name: "Boards",
     icon: <FiLayout className="size-4 mr-2" />,
-    // href: "/workspaces/1/boards",
   },
   {
     id: "2",
     name: "Members",
     icon: <FiUsers className="size-4 mr-2" />,
-    // href: "/workspaces/2/members",
   },
   {
     id: "3",
     name: "Settings",
     icon: <IoSettingsOutline className="size-4 mr-2" />,
-    // href: "/workspaces/3/settings",
   },
 ];
 

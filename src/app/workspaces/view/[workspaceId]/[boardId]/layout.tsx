@@ -1,10 +1,18 @@
 import { ReactNode } from "react";
 import BoardSidebar from "./_components/board-sidebar";
 
-const BoardIdLayout = ({ children }: { children: ReactNode }) => {
+type BoardIdLayoutPropType = {
+  children: ReactNode;
+  params: {
+    workspaceId: string;
+    boardId: string;
+  };
+};
+
+const BoardIdLayout = ({ children, params }: BoardIdLayoutPropType) => {
   return (
-    <div className="pt-16 px-2 w-full">
-      <BoardSidebar />
+    <div className="pt-12 w-full flex gap-x-3 h-[calc(100vh-10px)]">
+      <BoardSidebar params={params} />
       {children}
     </div>
   );
